@@ -1,0 +1,24 @@
+rfan    Ali    s802399    s802399@stud.hioa.no    personbilde    JA
+Ali    Muhammad Usman    s886878    s886878@stud.hioa.no    personbilde    JA
+Gupta    Suraj    s886876    s886876@stud.hioa.no    personbilde    NEI
+Olaussen    Marius Glenn    s886885    s886885@stud.hioa.no    personbilde    JA
+Rornes    Eirik Johannes    s886884    s886884@stud.hioa.no    personbilde    JA
+Awale    Bikram    s850806    s850806@stud.hioa.no    personbilde    JA
+Gjoka    Perla    s886873    s886873@stud.hioa.no    personbilde    NEI
+Pirzada    Abu Hurrera    s886888    s886888@stud.hioa.no    personbilde    NEI
+Nguyen    Norah Elisabeth    s808855    s808855@stud.hioa.no    personbilde    NEI
+Abueleis    Nihal    s856627    s856627@stud.hioa.no    personbilde    NEI
+Khan    Imran Qayyum    s886878    s886878@stud.hioa.no    personbilde    NEI
+Smedsrud    Kim    s299507    s299507@stud.hioa.no    personbilde    JA
+Shahmir Shourmasti    Komail    s850798    s850798@stud.hioa.no    personbilde    JA
+Gundersen    Martin Bergheim    s803434    s803434@stud.hioa.no    personbilde    JA
+Khatiwada    Baijaya    s886879    s886879@stud.hioa.no    personbilde    JA
+Jani    Tea    s886877    s886877@stud.hioa.no    personbilde    NEI
+Wiken    Stian Leander    s959938    s959938@stud.hioa.no    personbilde    NEI
+Klausen    Magnus    s886880    s886880@stud.hioa.no    personbilde    JA
+Pandey    Siddhartha    s826650    s826650@stud.hioa.no    personbilde    JA
+Mahmood    Tariq    s886882    s886882@stud.hioa.no    personbilde    JA
+Celiku    Lea    s886874    s886874@stud.hioa.no    personbilde    JA
+KOMANPALLY    NIRANJANI REDDY    s859987    s859987@stud.hioa.no    personbilde    JA
+Toien    Fredrik Karlsen    s803833    s803833@stud.hioa.no    personbilde    JA
+Shahid    Shahid Iqbal    s886883    s886885@stud.hioa.no    personbilde    NEI
