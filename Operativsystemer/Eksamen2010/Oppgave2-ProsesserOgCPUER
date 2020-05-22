@@ -1,0 +1,79 @@
+ppgave 2 - Prosesser og CPUer (20%)
+
+Følgende Perl-script sum.pl kjører en CPU-intensiv subrutine run() som utfører en regneoppgave. Den bruker en Perl-modul som har en funksjon gettimeofday() som returnerer et flyttall som er antall sekunder som har gått siden 1/1-1970. Dermed vil det når subrutinen run() har blitt kjørt ferdig skrives ut en linje som sier hvor mange sekunder det har gått siden scriptet startet.
+
+#! /usr/bin/perl
+use Time::HiRes qw(gettimeofday);
+$start = gettimeofday();
+
+# Starter kjøring sum.pl
+run();
+# kjøring avsluttet
+
+sub run(){
+    for ($i = 0;$i < 10200000;$i++){
+           $tall = ($i + 1)*($i + 1) - $i*$i;
+    }
+    $slutt = gettimeofday();
+    $tid = $slutt - $start;
+    printf("Ferdig etter %4.2f sekunder\n",$tid);
+}
+Når dette scriptet kjøres på en MacBook med Darwin kjerne 9.8.0 med 2 CPU'er gir det følgende output:
+
+Ferdig etter 5.01 sekunder
+Tre andre Perl-script sumA.pl, sumB.pl og sumC.pl er identiske bortsett fra koden mellom kommentarene "Starter kjøring" og "kjøring avsluttet" som ser slik ut:
+
+# Starter kjøring sumA.pl
+run();
+run();
+run();
+# kjøring avsluttet
+# Starter kjøring sumB.pl
+run();
+fork();
+run();
+# kjøring avsluttet
+# Starter kjøring sumC.pl
+$pid = fork();
+if($pid == 0){
+    fork();
+    run();
+}
+else{
+    run();
+}
+# kjøring avsluttet
+Du skal nå forklare hva output blir når du kjører disse programmene på MacBook'en med to CPU'er. Anta at ingen andre programmer kjører samtidig. Hundredelene i tidsanvisningen vil kunne variere fra kjøring til kjøring, det er nok å oppgi tideler.
+--------------------------------------------------------------------------------------------
+Oppgave 2 - Prosesser og CPUer (20%)
+
+a) run() kjøres tre ganger etter hverandre i en og samme prosess og dermed hele tiden på samme CPU. Det tar da 5 sekunder å kjøre hver runde ferdig.
+
+Ferdig etter 5.0 sekunder
+Ferdig etter 10.0 sekunder
+Ferdig etter 15.0 sekunder
+b) Først kjøres run() en gang og er ferdig etter 5 sekunder. Kallet på fork() gjør at en child prosess startes som på samme måte som parent kjører run(). Men disse vil kjøre som uavhengige prosesser på hver sin prosessor og dermed er begge ferdig 5 sekunder senere.
+
+Ferdig etter 5.0 sekunder
+Ferdig etter 10.0 sekunder
+Ferdig etter 10.0 sekunder
+c) Først gjøres det en fork og parent starter en run-prosess. Child fork'er med en gang den starter opp og dermed vil to uavhengige prosesser til kjøre run(). Dermed starter tre uavhengige prosesser samtidig, Darwin kjernen sørger for at de deler broderlig på de to CPU'ene og dermed blir alle tre ferdig etter 3x5/2 = 7.5 sekunder.
+
+Ferdig etter 7.5 sekunder
+Ferdig etter 7.5 sekunder
+Ferdig etter 7.5 sekunder
+Under vises resultatet av en virkelig kjøring av programmene. Legg merke til at resultatet fra den siste prosessen printes ut etter at scriptet har avsluttet og promptet er skrevet ut.
+hh$ ./sumA.pl
+Ferdig etter 4.98 sekunder
+Ferdig etter 9.98 sekunder
+Ferdig etter 14.95 sekunder
+hh$ ./sumB.pl
+Ferdig etter 5.00 sekunder
+Ferdig etter 10.01 sekunder
+Ferdig etter 10.01 sekunder
+hh$ ./sumC.pl
+Ferdig etter 7.50 sekunder
+Ferdig etter 7.53 sekunder
+hh$ Ferdig etter 7.54 sekunder
+
+

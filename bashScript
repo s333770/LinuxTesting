@@ -1,0 +1,5 @@
+for dir in $(find . -type d)
+do
+	   files=`du -b $dir | sort -r -n | head -5`
+	      echo "De 5 største filene\n $files \n\n"
+      done

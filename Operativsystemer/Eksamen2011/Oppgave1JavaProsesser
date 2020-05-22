@@ -1,0 +1,57 @@
+Oppgave 1 - Java og prosesser (20%)
+
+a) På en Linux host har du et java-program Arr.java som du ønsker å kjøre. Gi kommandoer som kompilerer og kjører dette programmet fra et bash-shell. Forklar kort hva kommandoene gjør og eventuelt hvilke filer som lages og hva de inneholder.
+-----------------------------------------------------------------------------------------------
+javac Arr.java # Kompilerer kildekoden og lager Arr.class som inneholder byte code
+java Arr #Starter JVM som kjører bytecoed og programmet kjører
+
+b) Denne Linux maskinen har to hyperthreading CPU'er og du kjører java-programmet med
+
+$ time java Arr
+Real:3.325 User:3.288 System:0.012 99.25%
+Forklar kort kommandoen som kjøres og hva output betyr.
+----------------------------------------------------------------------------
+Real: Antall sekunder reell tid som ble brukt
+User: CPU tid brukt med CPU i user mode
+System: CPU-tid brukt i kernel mode
+Prosent gir hvor mange prosent av den totale CPU-tiden på systemet som programmet har brukt.
+
+c) Du utfører en ny kjøring med kommandoen
+
+$ for i in $(seq 1 2); do time java Arr& done
+Forklar kort hva du oppnår med å kjøre denne kommandoen.
+------------------------------------------------------
+Du lager en for løkke som kjører to ganger og som starter tidtaging av Arr.java som bakgrunnsprosess. De kjører derfor samttidig og uavhengig av hverandre. 
+
+d) Java-programmet Arr.java endrer hele tiden på verdier i ett array arr[100]. Den vesentligste delen av programmet ser slik ut:
+tall = arr[i];
+arr[i] = arr[j];
+arr[j] = tall;
+der i og j er to heltall som blir valgt tilfeldig fra 0 til 99. Output fra kjøringen av kommandoen i forrige delspørsmål blir:
+$ for i in $(seq 1 2); do time java Arr& done
+Real:3.312 User:3.272 System:0.020 99.41%
+Real:3.364 User:3.296 System:0.012 98.32%
+Forklar kort tidsbruken sammenlignet med den første kjøringen utifra det du vet om Linux-hosten.
+------------------------------------------------------------------------------------------------VVi får oppgitt av maskinen har to hyperthreading CPU-er derfor er tiden det tar omtrent like lang
+
+e) Neste kjøring av Java-programmet gir følgende:
+
+$ for i in $(seq 1 4); do time java Arr& done
+Real:4.954 User:4.908 System:0.032 99.71%
+Real:4.956 User:4.920 System:0.024 99.77%
+Real:4.995 User:4.920 System:0.020 98.91%
+Real:5.128 User:5.060 System:0.028 99.22%
+Forklar kort tidsbruken sammenlignet med de første kjøringene utifra det du vet om Linux-hosten.
+--------------------------------------------------------------------------------------
+Maskinen har 2 hyperthreading CPU-er. Det kjøres 2 prosesser på hver CPU, maskinene har hyperthreading og data lagres i cache . Dermed bruker CPU bare ca 50 % mer CPU-tid enn det som var tifellet i forrige oppgave.
+
+f) Hva vil du forvente skjer og du får som output om du kjører følgende kommando?
+$ for i in $(seq 1 8); do time java Arr& done
+Forklar kort.
+------------------------------------------------------------------------------------
+Det startes dobbelt så mange programmer, hyperthreading gjør at det kan kjøres 2 prosesser på hver CPU samtidig. Mens fire arbeider vil de fire andre måtte vente, helt uvirksomme, 
+Derfor vil prosessen ta ca dobbelt så lang tid. 
+
+
+
+

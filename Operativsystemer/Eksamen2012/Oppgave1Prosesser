@@ -1,0 +1,37 @@
+Oppgave 1 
+a) Om man kopierer et C-program kompilert på en x86-basert Linux maskin til en x86-basert Mac OS X, vil da programmet kunne kjøre? Forklar kort.
+----------------------------------------------------------------------------
+Nei, det vil ikke kunne kjøre ettersom all kommunikasjon programmet foretar være forskjellig. 
+Blant annet systemkallene
+
+b) En prosess bruker ca 5 minutter på å beregne et regnestykke. Hvis to slike prosesser kjører samtidig på et multitasking OS med én CPU, hvor lang tid vil det omtrent ta? Forklar kort.
+-------------------------------------------------------------------------------------------
+Ettersom regneprosessor krever full CPU-tilgang må de to prosessene bytte på å kjøre kjøre beregninger og det vil ta dobbelt så lang tid. 
+
+
+c) Hvorfor kan ikke et OS generelt sett utnytte en dual core CPU ved å la en vanlig sekvensiell prosess kjøre på to CPUer? Forklar kort.
+-------------------------------------------------------------------------------------------
+OS må vite om den indre logikken i prosessene og la instruksjonene kjøres sekvensielt. 
+Instruksjonen kan ikke kjøres paralellt for det kan hende de avhenger av hverandre. 
+
+d) En sekvensiell 100% CPU-intensiv regnejobb bruker 8 minutter på en dual core CPU. Hvor lang tid tar det hvis fem slike program startes samtidig på samme maskin? Forklar kort.
+----------------------------------------------------------------------------------------
+Det er 5*8= 40 minutter CPU tid som trengs å bli ferdig. 
+Vi har 2 CPU-er for beregning, derfor halveres tiden. 
+
+Oppgave 5
+e) En sekvensiell 100% CPU-intensiv regnejobb tar 10 minutter på en dual core hyperthreading CPU. Hvor lang tid tar fire slik jobber kjørt samtidig på samme system? Forklar kort.
+--------------------------------------------------------------------------------------------
+Hyperthreading har ikke noen effekt på CPU-intensive regnejobber, siden hver core deler ALU. Dermed vil to og to jobber bytte på å bruke ALUen i hver av de to CPU-kjernene, dette tar dobbelt så lang tid som en regnejobb
+
+
+
+
+
+
+
+
+
+
+
+

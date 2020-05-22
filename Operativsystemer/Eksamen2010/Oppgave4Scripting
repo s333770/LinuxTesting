@@ -1,0 +1,21 @@
+a) Skriv et bash-script som når det startes av en bruker og kjøres i bakgrunnen gjør følgende hvert femte minutt: Hvis filen .bashrc ikke finnes i brukerens hjemmemappe utføres følgende:
+
+Filen /etc/bashrc kopieres til .bashrc i brukerens hjemmemappe.
+.bashrc gis alle rettigheter for brukeren og ingen rettigheter for andre.
+Linjen alias ll="ls -l" legges til på slutten av .bashrc.
+En linje som sier at filen er kopiert legges til i filen .log i brukerens hjemmemappe. Linjen skal starte med tidspunktet den er skrevet, gitt ved output fra kommandoen date.
+---------------------------------------------------------------------------------------------
+#! /bin/bash
+
+while [ True ] 
+do
+	if [ ! -f ~/.bashrc ]
+	then
+		cp /etc/.bashrc ~/.bashrc
+		chmod 700 ~/.bashrc
+		echo 'alias ll="ls -l"'>> ~/.bashrc
+		echo "$(date) /etc/bashrc kopiert" >> ~/.log
+	fi
+sleep 300 = 5 minutter
+done
+

@@ -1,0 +1,58 @@
+Oppgave 2 - Internminne (25%)
+
+a) Hvis page-størrelsen er 2KByte, hvor mange sider består en prosess som totalt bruker 11 KByte minne av?
+-----------------------------------------------------------------------------------------------
+Det vil 11/2=6,5=6 sider, kun hele sider tildeles
+
+b) Vil antall sider for en prosess kunne minke mens den kjører? Forklar kort.
+------------------------------------------------------------------------------------------------
+Ja, hvis en prosess er ferdig med å bruke en datastruktur som foreksempel klasse, kan disse sidene frigjøres, enten fra prosessen selv, eller garbage collection 
+
+c) Hva er en dirty page? Finnes det en type sider for en prosess som aldri blir dirty? Forklar kort.
+---------------------------------------------------------------------------------------
+En dirty page er en side som har blitt endret slik at den må skrives til disk om OS sin paging algoritme velger at den skal ut av RAM. 
+Sider som inneholder den kjørbare koden blir aldri dirty siden inneholden aldri endres. 
+
+d) Hva er en page table entry og hva er det viktigste feltet i den?
+--------------------------------------------------------------------------------------
+En page table entry er informasjon om en gitt page i page table. Den sier hvor den ligger i minnet, og andre fekt med info. Det viktigste feltet er page frame nummmeret, som forteller hvilken frame i RAM den ligger. 
+
+e) En page table entry inneholder et Referenced bit. Forklar kort hva dette bit'et brukes til.
+---------------------------------------------------------------------------------------------
+Dette bitet settes når en side leses eller skrives til. Dette er nyttig info for OS son algoritme for å ta ut sjeldent brukte sider fra RAM. 
+
+f) I en TLB entry finnes det ikke noe Referenced bit. Forklar kort hvorfor dette ikke finnes.
+--------------------------------------------------------------------------------------------
+Sider som refereres ofte legges i TLB. Siden de per definisjon brukes ofte, trenger de ikke et eget bit som sier at de har vært i bruk. 
+
+g) Hva står RAM for? Forklar kort betydningen av dette begrepet.
+---------------------------------------------------------------------------------------------
+Random Access memory, betyr at hvert byte kan skrives og leses i vilkårlig rekkefølge. Det tar derfor omtrent like lang tid å hente data fra minnet, uavhengig av hvor det ligger. 
+
+h) Mange datamaskiner har et hurtigere cache-minne mellom CPU og RAM. Vil det kunne føre til at det er forskjell i hvor lang tid det tar for CPU å hente inn to forskjellige bytes fra RAM til registerne i CPU'en? Forklar kort.
+------------------------------------------------------------------------------------------------
+Ja, det vil da gå mye hurtigere å hente et byte som ligger i cache en om det ligger i RAM fordi cache-minnet er raskere og nærmere CPU.
+
+En matrise, også kalt et todimensjonalt array, er et sett av elementer ordnet i rader og kolonner. For eksempel kan en 2x2 matrise A[2][2] defineres i et C-program og den vil da ha 2x2 elementer: A[0][0], A[0][1], A[1][0] og A[1][1]. Når disse elementene lagres i RAM, lagres de etterhverandre som vist i eksempelet. I en 3x3 matrise lagres først A[0][0], A[0][1] og A[0][2] etterhverandre, så A[1][0], A[1][1] og så videre.
+
+i) Et C-program definerer en heltalls-matrise med int mat[5000][5000];. Hvis et heltall (integer, int) bruker 4 byte lagringsplass, hvor mange Megabyte består denne matrisen av?
+------------------------------------------------------------------------------------------
+5000*5000*4=25000000*4=100000000=100 millioner bytes= 10 000 k Bytes=100 MBytes
+
+j) På en maskin med 2 GByte RAM har man følgende C-program:
+int mat[5000][5000];
+for(i = 0;i < 5000;i++){
+      for(j = 0;j < 5000;j++){
+              mat[i][j] = 5;
+      }
+}
+Programmet kompileres og kjøres:
+$ time a.out
+Real:0.113 User:0.020 System:0.092 99.39%
+Så endres kun èn linje i programmet, linjen der matriseverdier legges inn endres til mat[j][i] = 5;. Når programmet så kompileres og kjøres, tar det nesten tre ganger så lang tid å kjøre det:
+$ time a.out
+Real:0.303 User:0.216 System:0.084 98.95%
+Hvordan kan dette forklares?
+-----------------------------------------------------------------------------------------------
+j) Hele arrayet vil kunne være i minnet på en gang når programmet kjøres, så paging er ikke en faktor her. Uten cache ville da programmet gå like fort i begge tilfeller, siden det ville ta like lang tid å hente hvert matriseelement. Men i det første tilfellet ser man at arrayet skrives til i samme rekkefølge som det ligger lagret i RAM. Dermed vil det skrives fortløpende til bytes etterhverandre i cache som så legges samlet ut i minnet. Dette går mye raskeren enn i program to hvor det er 20000 byte mellom hvert matrise element som skrives til. Dermed vil det stort sett bare bli cache-miss og det går totalt sett mye lengre tid å skrive til minnet.
+

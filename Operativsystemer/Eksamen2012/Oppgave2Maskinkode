@@ -1,0 +1,77 @@
+Oppgave 2
+a) Hva er det binæret tallet 101010 i titallsystemet? Forklar kort.
+000000 1*2+2^3+2^5= 2+8+32=42
+000001
+000010
+000011
+000100
+000101
+000110
+000111
+001000
+001001
+001010
+001011
+001100
+001101
+001110
+001111
+010000
+010001
+010010
+010011
+010100
+010101
+010110
+010111
+011000
+
+b) Hva er det største tallet man kan lagre i et 8 bits register? Forklar kort.
+Samme fremgang som over, altså legge sammen alle, dette blir 255
+
+Ta nå utgangspunkt i den lille 4-bits maskinen som det ble kjørt en simulering av på forelesning og som ble brukt i ukeoppgavene. Tabellen nedenfor viser hva maskinkode for denne CPU'en betyr.
+
+binært Nr	operand1	operand2	Nr	Navn
+0010	DR	tall	2	MOVI
+0100	DR	SR	4	ADD
+1100	DR	SR	12	CMP
+1111	nr	nr	15	JNE
+
+c) Hva betyr maskinkoden 01000001? Forklar det gjerne med assemblykode for denne maskinen.
+-----------------------------------------------------------------------------------------
+ADD R0 <- R0 + R1
+
+d)d) Betrakt følgende assemblykode for maskinen:
+
+0 MOVI R0 <- 0 (tallet 0 legges i R0)
+1 MOVI R1 <- 1
+2 MOVI R2 <- 2
+3 ADD R0 <- R0 + R1
+4 CMP R0 R2 
+5 JNE 3 (Jump Not Equal 3, hopp til linje 3 hvis R0 != R2)
+Forklar kort hva som skjer når koden kjøres og hva de tre registerne R0, R1 og R2 inneholder når koden har kjørt ferdig og skal igang med kodelinje 6.
+-------------------------------------------------------------------------------------
+3: R0=1
+compare R0 og R2
+R0=2 
+Compare 
+Like 
+R0=2
+R1=1
+R2=2
+
+e
+for(int i=1; i<=2; i++){}
+
+
+f) For å kunne kjøre koden må CPU'en ha maskinkode. Bruk tabellen ovenfor og oversett hele programmet, linje 0-5 i assemblykoden vist over til maskinkode.
+-----------------------------------------------------------------------------------------------
+00100000
+00100101
+00101010
+01000001
+11000010
+11110011 11 angir linje 3 00 angir register 0
+
+
+

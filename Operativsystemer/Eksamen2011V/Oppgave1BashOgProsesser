@@ -1,0 +1,55 @@
+a) Skriv en bash-kommando som legger resultatet av kommandoen pwd i filen /tmp/pwd
+-------------------------------------------------------------------------------
+ pwd > /tmp/pwd
+
+b) Skriv et bash-script arg.bash som tar to argumenter og skriver dem ut med ordet og i mellom. Eksempel på hvordan en kjøring skal se ut:
+$ ./arg.bash En To
+En og To
+------------------------------------------------------------------------------------------
+#! /bin/bash
+echo "$1 og $2"
+
+c) Anta at du har kompilert et CPU-intensivt Java-program Calc.java som gjør en matematisk beregning og bruker så mye CPU som det er mulig å få tilgang til. Skriv et bash-script med navn run som setter igang dette Java-programmet på en Linux-maskin.
+----------------------------------------------------------------------------------------------
+#! /bin/bash
+java Calc
+
+d) Hvordan kan du da fra kommandolinjen i et bash-shell starte to uavhengige prosesser run som kjører samtidig?
+-----------------------------------------------------------------------------------------------
+$ ./run&
+$ ./run
+hvor ./ er nødvendig om '.' ikke er med i PATH. Eventuelt
+(./run&);./run
+
+e) Disse to uavhengige prosesser som kjører på en maskin med èn CPU. Forklar kort om et multitasking operativsystem vil gjøre at det går raskere å fullføre disse prosessene når de startes samtidig, sammenlignet med om de kjører etter hverandre.
+----------------------------------------------------------------------------------------------
+Det vil ikke gå raskere å kjøre disse prosessene samtidig. Siden de er CPU-intensive vil de bruke 100% av CPUen når de først kjører og prosessene vil dermed i praksis måtte bytte på å bruke CPUen. Når det ikke er noen naturlig ventetid på data eller I/O er det ikke noen tid å tjene inn på multitasking.
+
+f) Du skriver nå om Java-koden og lager et program som lager to tråder (Java threads) som begge gjør den samme regnejobben. Du starter nå Java-programmet på samme maskin. Sammenlign kort denne måten med å kjøre to uavhengige Java-prosesser som i de forrige delspørsmålene.
+-----------------------------------------------------------------------------------------------
+Denne måten å kjøre programmet på vil i praksis ligne mye på den forrige. Linux vil schedulere de to trådene som uavhengige enheter, og som for prosessene må de pent dele på den ene CPUen som er tilgjengelig. Dermed vil det hele gå omtrent like fort. En context switch går litt fortere mellom to tråder, men i praksis vil det være umerkelig sammenlignet med den tiden beregningene bruker. Det vil også brukes litt mindre minne siden trådene kjører noe felles kode.
+
+g) Forklar kort hva som skjer når du starter det samme Java-programmet med to tråder på en maskin med en like rask CPU, men som er hyperthreading. Vurder kort om dette vil gå fortere.
+-------------------------------------------------------------------------------------------
+g) Linux betrakter CPUen med hyperthreading som to kjerner (rapporterer to CPUer i /proc/cpuinfo) og kjører en tråd på hver av disse. Men i en slik CPU er det kun èn ALU og når alle instruksjonene bruker ALUen vil de to trådene måtte bytte på å bruke denne og det vil ikke gå fortere å kjøre programmet. Hyperthreadingen gjør at trådene kan switches mellom ekstremt hurtig, men det hjelper ikke når de aldri må vente på data fra minne eller I/O, og den andre tråden dermed ikke kan utnytte denne ventetiden til å gjøre instruksjoner.
+
+h) Datalærer H prøver på en forelesning 1. april å overbevise studentene sine om at han med et lite perlscript kan få en datamaskin til å forstå muntlige kommandoer. Han starter først perlscriptet som egentlig ikke gjør noen ting i et bash-shell på storskjerm i forelesningssalen. Dette shellet har TTY nummer pts/3. Uten at studentene merker noe setter lærer H så opp en skype-samtale med enn annen og medsammensvoren lærer K som dermed hører alt som blir sagt i timen. Denne lærer K har via ssh et annet bash-shell oppe på samme maskin. Hver gang lærer H sier en kommando høyt i klassen, taster lærer K inn kommandoen til et lite script som tidligere er startet med kommandoen $ ./april.bash 3. Scriptet april.bash ser slik ut:
+#! /bin/bash
+tty=$1
+while [ true ]
+do
+   read in
+   $in > /dev/pts/$tty
+   $in 
+done
+Forklar kort hva dette scriptet gjør og hvilken effekt det har når den medsammensvorne lærer K skriver inn kommandoene han hører over skype-forbindelsen til dette scriptet.
+-------------------------------------------------------------------------------------------
+h) Først legges tallet som gis som argument i variablene $tty, 3 i dette tilfellet. Scriptet går i en evig løkke og leser inn input fra tastaturet til variabelen $in. For hver linje som skrives inn, utføres dette som en kommando i shellet. Resultatet av kommandoen sendes til /dev/pts/3 og vises på storskjermen. Dermed ser det for tilskuerne ut som om de muntlige kommandoene utføres når de blir sagt høyt. I tillegg utføres kommandoen på det lokale shellet til lærer K, slik at han ser resultatet av kommandoen selv.
+
+i) Når lærer H sier høyt en kommando som ikke finnes, for eksempel lst, kommer det ikke opp noen feilmelding på storskjermen slik det burde. Forklar kort hvorfor bare lærer K ser denne feilmeldingen og hvordan scriptet kunne vært endret slik at studentene fikk se denne feilmeldingen også.
+------------------------------------------------------------------------------------------------
+i) Denne feilmeldingen sendes til STDERR og det er bare STDOUT som vidresendes til den andre pts'en. Dermed vil den vises to ganger i det lokale shellet til lærer K. Om linje 6 endres til
+
+   $in &> /dev/pts/$tty
+vil også feilmeldingen sendes til storskjermen. Følgende gir også det samme: $in > /dev/pts/$tty 2>&1.
+

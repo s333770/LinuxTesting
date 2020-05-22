@@ -1,0 +1,10 @@
+1,a) Det er forskjell på hvor lang tid det tar for en CPU å hente data fra lagringsenhetene RAM, CPU-cache og harddisk. Omtrent hvor lang tid tar det for CPU å hente data fra disse tre enhetene, sammenlignet med tiden det tar å hente data fra registerne?
+------------------------------------------------------------------------------------------
+a) Om det tar et nanosekund å hente data fra et register, kan det ta 1-5 nanosekunder å hente fra CPU-cache, avhengig av om det er L1, L2 eller L3 cache og omtrent 10-50 nanosekunder å hente fra RAM. Disk aksess tar flere millisekunder, altså omtrent en million ganger så lang tid.
+
+b) Forklar kort hvordan paging gjør det mulig å flytte deler av minnet for en prosess ut og inn av RAM.
+-----------------------------------------------------------------------------------------------
+Memory Management Unit har en pagetabell, det er også en pagetabell i RAM. 
+Her lagres alle instruksjoner CPU utfører. 
+Ved hjelp av en pagetabell i MMU og i selve minnet lagres lokasjonen for alle sider som befinner seg i RAM. Dermed kan alle instruksjoner CPU utfører bruke virtuelle adresser i sitt eget adresserom, uavhengig av hvor i det fysiske RAM siden virkelig ligger. Når sider lastes inn og ut fra swap-området, trenger bare pagetabellen å oppdateres og sidene kan plasseres hvor som helst i RAM.
+

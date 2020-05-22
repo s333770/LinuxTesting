@@ -1,0 +1,24 @@
+b) Forklar med egne ord hva som skjer når du kjører dette scriptet. Gi en forklaring som forteller i store trekk hva som oppnås ved å kjøre scriptet.
+
+#! /bin/bash
+lineNR=$1
+cp ~/.ssh/known_hosts ~/tmpssh
+echo "" > ~/.ssh/known_hosts
+
+cat ~/tmpssh |
+while read line
+do
+ ((c = c + 1))
+ if [ $c != $lineNR ]; then
+    echo "$c $line" >> ~/.ssh/known_hosts
+ fi
+done
+-----------------------------------------------------------------------------------------------------
+Kort fortalt: anta at scriptet heter remove.sh. Kallet $ remove.sh n vil da fjerne linje n fra filen known_hosts
+I mer detalj:
+
+lineNR settes til å være scriptets første argument
+Filen known_hosts kopieres til en midlertidig fil
+Innholdet i known_hosts overskrives med et tomt tegn; med andre ord, innholdet fjernes
+Innholdet fra den midlertidige filen, altså det som opprinnelig lå i known_hosts, pipes til en løkke
+Løkken har en teller som holder rede på hvilken linje som behandles. For hver linje sjekker den om det aktuelle linjenummeret tilsvarer nummeret på den linjen som skulle fjernes. Hvis ikke skrives linjen tilbake til known_hosts.

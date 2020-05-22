@@ -1,0 +1,29 @@
+Oppgave 4
+a) Forklar kort hva en MB og en MiB er og hvilken av dem som er størst.
+------------------------------------------------------------------------
+En MB er lik 1000 kBytes eller 1000000bytes. 
+En MiB er lik 2000 kBytes eller 200000000 bytes, Mib er dobbelt så stor.
+
+d) RAID 3 ligner på RAID 4, men størrelssen på stripene er mye mindre. Tenkt deg at en RAID 3 stripe består av bare ett bit og at følgende er lagret på et slikt 5-diskers RAID 3:
+
+disk 1	disk 2	disk 3	disk4	paritets-disk
+1	0	 	0	1
+0	1	 	0	0
+1	1	 	1	1
+1	0	 	1	0
+0	0	 	0	0
+1	0	 	1	1
+
+
+
+Som du ser har disk 3 crashet og alle dataene (bit'ene) fra denne disken er borte. Forklar hvorfor RAID'et er redundant og gjenskap dataene som var på disk 3 før den crashet.
+---------------------------------------------------------------------------------------------
+disk 1  disk 2  disk 3  disk4   paritets-disk
+1       0        0       0       1
+0       1        1       0       0
+1       1         0      1       1
+1       0         0      1       0
+0       0          0     0       0
+1       0          1     1       1   
+Data redundancy betyr at det eksisterer data ved siden av den aktuelle dataen som gjør at vi har mulighet til å hente ut opprinnelig data eller endre på feil som har skjedd på dataen. 
+Vi ser her at vi enkelt kan hente ut data ved å sørge for at bitene i disk 3 gjør at regnestykker går opp 

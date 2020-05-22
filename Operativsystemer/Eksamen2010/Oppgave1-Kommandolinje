@@ -1,0 +1,24 @@
+a) Skriv en bash-kommando som gir eieren til filen ~/.bashrc kun skrive og leserettigheter, gruppen kun leserettigheter og alle andre ingen rettigheter.
+----------------------------------------------------------------------------------------------
+chmod 640 ~/.bashrc
+
+b) Skriv en bash-kommando som flytter filen ~/.bashrc til mappen /tmp.
+---------------------------------------------------------------------------
+mv ~/.bashrc /tmp
+
+c) CreationTime er en property for et PowerShell filobjekt. Gi en PowerShell-kommando som gir hvilket tidspunkt filen fil.txt i mappen du står i ble laget.
+----------------------------------------------------------------------------
+(ls fil1.txt).CreationTime
+
+d) Gi en PowerShell-kommando som gir hvilket år som filen fil.txt ble laget.
+---------------------------------------------------------------------------------
+(ls fil1.txt).CreationTime.Year
+
+e) Hva gjør følgende PowerShell-kommando? ps | foreach {if($_.name -eq "notepad") {kill $_.Id}}
+-------------------------------------------------------------------------------------------------
+Den avslutter alle prosesser som heter notepad ved å løpe gjennom prosessene med en for each og ddreper prosessen 
+
+f) f) Skriv en PowerShell-kommando som legger sammen lengden(Length) av alle filene i mappen den utføres i og til slutt skriver ut summen.
+---------------------------------------------------------------------------------------------
+ls | foreach { $sum +=$_.Length}; $sum
+

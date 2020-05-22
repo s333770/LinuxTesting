@@ -1,0 +1,52 @@
+Oppgave 3 - Tråder, synkronisering og internminne (15%)
+
+a) Du lager en java-thread klasse hvor du deklarerer to variabler
+
+static int a; 
+int b;
+og starter opp tre Java-tråder. Forklar kort hvor mange variabler a og b som det nå vil allokeres plass for i internminnet.
+-----------------------------------------------------------------------------------------------
+Det vil lages en enkel variabel a og tre variabler b. En for hver tråd
+
+b) Hva skjer om en prosess glemmer å utføre signal på en semafor etter et kritisk avsnitt? Forklar kort.
+----------------------------------------------------------------------------------------
+Semafor er en variabel som rett og slett er ansvarlig for å gi tilgang til kritiske avsnitt. 
+Dersom da andre program oppfører seg korrekt, vil disse da ikke få tilgang til kritisk avsnitt. 
+
+
+c) Tenk deg at et Perl program, som kan kjøres samtidig av flere uavhengige brukere, bruker følgende metode for å unngå at to brukere skriver samtidig til en felles fil
+
+`rm /tmp/lockfile`;   # Fjerner /tmp/lockfile
+while(-f /tmp/lockfile) {}
+# skriver til en felles fil
+`touch /tmp/lockfile`;     # Lager /tmp/lockfile
+I hvilke tilfeller virker ikke denne metoden? Forklar kort.
+-------------------------------------------------------------------------------------------
+c) Metoden vil aldri virke. Den fjerner låsen, sjekker at den er borte og går så inn i kritisk avsnitt. Regelrett innbrudd. Etterpå settes "låsen" på igjen. (Kommentar: metoden har et snev av funksjon hvis en annen innbruddstyv blir context switch'et til rett før while og denne setter på låsen. Men den vil da sørge for at to prosesser kommer samtidig inn i kritisk avsnitt (når prosess nr 3 fjerner lockfile) og virker mot sin hensikt.
+
+
+
+
+d) Et program bruker 512 KByte minne. Page-størrelsen er 4KByte. Hvor mange sider er det i page-tabellen? Forklar kort.
+------------------------------------------------------------------------------------------
+d) Det er 512 K / 4K = 128 sider.
+
+e) CPU utfører en x86-instruksjon som legger sammen tallene i to registere. Vil MMU involveres når denne instruksjonen utføres? Forklar kort.
+---------------------------------------------------------------------------------------------
+Siden det er to registre vil det ikke vøre nødvendig å innvolvere Memory management Unut
+
+f) CPU utfører en x86-instruksjon som henter en byte fra RAM og legger den i et register. Vil MMU involveres når denne instruksjonen utføres? Forklar kort.
+--------------------------------------------------------------------------------
+Ja,siden instruksjonen fører til at byte blir hentet fra RAM er MMU involvert, siden adressen fra prosesessens virtualle adresserom må oversettes til en fysisk adresse).
+
+g) Hva tar lengst tid, en soft miss(TLB miss) eller en hard miss(page fault)? Er forskjellen i tid det tar stor? Forklar kort.
+-----------------------------------------------------------------------------------------
+En soft miss fører til at page-entry må hentes fra RAM og det går relativt fort. En hard miss betyr at en page ikke er i RAM, dette tar lang tid. 
+
+h) Et program kjører og bruker aktivt 512 MByte minne. Hvor i hardware ligger page tabellen når programmet kjører? Ta eventuelt også med steder der deler av den kan ligge. Forklar kort.
+---------------------------------------------------------------------------------------------
+Antar page størrelse på 4KByte, altså er det 128 tusen entries i page tabellen. Dette er altfor mye til å få plass på CPU-en, store deler vil derfor ligge på RAM.
+
+
+
+

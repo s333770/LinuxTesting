@@ -1,0 +1,70 @@
+Oppgave 5 
+
+a) Du logger inn på en linux maskin med root brukeren og er den eneste brukeren innlogget. Du starter ett shell og skal vha ps kommandoen liste og sortere alle prosesser som inneholder ordet root.
+--------------------------------------------------------------------------------------------
+ps -a | sort | grep root
+
+
+b) En annen bruker ola logger inn på maskinen og starter en prosess nano root.txt, du er fortsatt logget inn som root i shellet og skal nå liste alle prosesser eid av din(root) bruker.
+-----------------------------------------------------------------------------------------
+b) ps ux eller ps aux | grep ^root
+
+c) Hva gjør følgende bash script?
+
+for mappe in $(find . -type d)
+do
+    echo -e "$mappe er en mappe \n"
+done
+-----------------------------------------------------------------------
+c, Den går gjennom mappen scriptet startes i og alle undermapper. For hver mappe som blir funnet legges den i variabelen mappe og mappestien skrives ut på skjermen før teksten "er en mappe"
+
+
+d) Kommandoen du -b(disk usage) i linux lister fil/mappe størrelser i byte i første kolonne. Sett sammen linux kommandoer for å soretere numerisk og i omvendt rekkefølge og velge de 5 første/største filene/mappene under mappen /var/log/ ,med største filen først, slik at utskriften ser slik ut
+
+12809566	/var/log/daemon.log 
+9534984	/var/log/daemon.log.1 
+2414142	/var/log/syslog.1 
+1297796	/var/log/kern.log.1 
+1017708	/var/log/messages.1
+--------------------------------------------------------------------------------------------
+~(master*) » du -b /var/log/* | sort -n -r | head -5                     andreas@DESKTOP-IRVMQ5I
+292584  /var/log/lastlog
+205381  /var/log/dpkg.log
+111781  /var/log/apt
+64128   /var/log/tallylog
+27094   /var/log/docker.log
+
+
+e) Gjør det samme som i oppgave d) i powershell for mappen C:\windows slik at utskriften blir
+
+ Length Name 
+ ------ ---- 
+2870272 explorer.exe 
+1567761 WindowsUpdate.log 
+ 733696 HelpPane.exe 
+ 427008 regedit.exe 
+ 316640 WMSysPr9.prx
+tips:ls, sort, select og format bør brukes.
+--------------------------------------------------------------------------------------------
+PS C:\Users\tm2_9> ls C:\Windows | sort Length -des | select -first 5 | Format-table Length, Name
+
+ Length Name
+ ------ ----
+4624880 explorer.exe
+1059840 HelpPane.exe
+ 358400 regedit.exe
+ 316640 WMSysPr9.prx
+ 181248 notepad.exe
+
+f) I Linux er ls, cd, uname, mv osv kalt kommandoer og disse returnerer utskrift i form av ren tekst, Hva kalles operajoner man utfører i Powershell, get-help, set-location osv og hva returnerer disse ?
+-----------------------------------------------------------------------------------------------
+Command Lets heter dette i powershell. De returnerer objekter siden PS er et objektorientert scripting språk -
+
+Oppgave 6 Scripting
+b) Lag et bash script som lister de fem største filene/mappene i mappen den kjører fra pluss alle undermapper. Vi antar at ingen mappenavn har mellomrom eller andre kontrolltegn i navnet. Hint: se oppgave 5c) og 5d).
+---------------------------------------------------------------------------------------------for dir in $(find . -type d)
+do
+   files=`du -b $dir | sort -r -n | head -5`
+   echo -e "De 5 største filene\n $files \n\n"
+done
+

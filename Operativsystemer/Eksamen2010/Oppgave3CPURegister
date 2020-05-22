@@ -1,0 +1,66 @@
+Oppgave 3 - CPU og registere (30%)
+
+a) Forklar kort og med egne ord hva et CPU-register er.
+-----------------------------------------------------------------
+Et CPU-register er minneenheten i CPU-en som brukes direkte i CPUen som ADD,SUB, CMP. 
+De brukes til å lagre data CPUen med og med selve isntruksjonene. CPU registre er den hurtigste og minste minneenheten i en datamaskin.
+
+b) Anta at du har et 8-bits register som du bruker til å lagre positive heltall. Hva er det største heltallet du kan lagre i dette registeret?
+-----------------------------------------------------------------------------------------------
+Det høyeste heltallet er da 256-1=255
+
+c) Forklar kort og med egne ord hvorfor man bruker cache i CPU'er.
+---------------------------------------------------------------------------
+Når en CPU skal gjøre beregninger må den mates med data fra internminnet, men det tar mye lengre tid å hente data fra minnet enn fra registrene. Dermed kan ikke data hentes like hurtig som CPUen kan bruke dem. Derfor tar man i bruk cache minne som et buffer mellom registre og interminnet. 
+Ofte brukes instruksjoner og data som ligger nær hverandre i minnet og dermed spares mye tid ved å hente større deler fra internminnet av gangen til ache. 
+
+d) Forklar kort og med egne ord hva det vil si å kompilere et C-program og hva som konkret skjer når man gjør det på en Linux-maskin.
+Anta du har et program som oversetter assemblykode til maskinkode. Dette programmet oversetter linje for linje og kan gjøre det helt uavhengig av hva andre linjer måtte inneholde.
+---------------------------------------------------------------------------------------------
+d) Å kompilere et C-program vil si å oversette høynivå-språk til maskininstruksjoner som kan kjøres direkte av CPU'en. Når man på en Linux maskin kompilerer et program som for eksempel heter prog.c, oversetter kompilatoren C-koden til maskinkode og det lages en ny fil a.out som inneholder den genererte maskinkoden.
+
+e) Programmet er opprinnelig laget og kompilert for en maskin med én CPU. Vil et operativsystem kunne sørge for at dette programmet kjører fortere på en maskin med to CPU'er? Forklar kort.
+---------------------------------------------------------------------------------------------
+e) Et operativsystem kan i utgangspunktet ikke vite hva maskininstruksjonene til et program utfører og må derfor la programmet utføres sekvensielt på én CPU. OS kan ikke på egen hånd dele opp programmet og kjøre deler av det på den andre CPUen.
+
+
+f) Vil programmereren av et slikt program kunne skrive det om slik at det kjører fortere på en maskin med to CPU'er? Forklar kort.
+------------------------------------------------------------------------------
+f) En programmerer av et slikt program vil for eksempel kunne dele jobben mellom to uavhengige tråder som oversetter hver sin del av programmet fra assembly til maskinkode. Dermed kan programmet utnytte to CPUer ved at OS setter igang en tråd på hver sin CPU.
+
+Anta at at følgende program er assemblykode laget for den lille 4-bits maskinen som det ble kjørt en simulering av på forelesning og som ble brukt i ukeoppgavene. Anta videre at heltallet n ligger i RAM på adresse 3.
+0 MOV R0 <- M[3] (Kopierer tallet fra adresse 3 i RAM til register R0) 
+1 MOVI R1 <- 3 (tallet 3 legges i R1)
+2 CMP R0 R1 
+3 JNE 5 (Jump Not Equal 5, hopp til linje 5 hvis R0 != R1) 
+4 ADD R0 <- R0 + R1
+5 MOV M[3] <- R0 (Kopierer R0 til adresse 3 i RAM)
+g) Skriv ned høynivåkode med C eller Java-syntaks som kunne gitt tilsvarende assemblykode som vist over om den ble kompilert for denne CPU-arkitekturen.
+----------------------------------------------------------------------------------------------
+0 Først skrives tallet 3 til R0
+Så flyttes tallet til R1
+Hvis de er like legges R1 til R0
+I C ville dette tilsvart: 
+if (n==3){
+n+=3;
+}
+
+h) For å kunne kjøre koden må CPU'en ha maskinkode. Bruk tabellen nedenfor og oversett linje 1-4 i assemblykoden vist over til maskinkode.
+
+binært Nr	operand1	operand2	Nr	Navn
+0010	DR	tall	2	MOVI
+0100	DR	SR	4	ADD
+1100	DR	SR	12	CMP
+1111	nr	nr	15	JNE
+------------------------------------------------------------------------------------------
+00101011
+11000001
+11110001
+01000001
+
+i) Tenk deg at denne kodebiten ble kjørt av to forskjellige tråder og at variabelen n i M[3] er en felles variabel som begge trådene kan aksessere. Forklar kort om det kan oppstå en race condition hvis de to trådene kjøres samtidig og hvordan problemet isåfall kan løses.
+----------------------------------------------------------------------------------------------
+i) Hvis det skjer en context switch etter at M[3] er hentet inn fra minnet, kunne det i prinsippet ha medført en race condition. Men i dette konkrete tilfellet er alt koden gjør å endre variabelens verdi til 6 kun i det spesielle tilfellet at den i utgangspunktet har verdien 3. Dermed kan ikke trådene ødelegge for hverandre hvis det kun er disse to som kjører samtidig. Hvis n ikke er 3 i utgangspunktet vil ingen av trådene gjøre noen endring. Om verdien er 3 vil begge sette den til 6, så de ødelegger ikke for hverandre om begge prøver å gjøre det samtidig. Men om en tredje tråd kjørte samtidig og kunne sette verdien på n ville en race condition oppstått om den tredje tråden satte verdien etter at den første tråden leste den, men før den andre leste den. Å sikre seg mot dette kunne da løses ved en form for mutex-løsning.
+
+:wq
+

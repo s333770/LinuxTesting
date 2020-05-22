@@ -1,0 +1,78 @@
+Oppgave 4 - Powershell (20%)
+
+I tillegg til flere store Unix-servere administrerer Mr. White noen windowsmaskiner. Disse maskinene er det stadig problemer med og Mr. White har derfor laget et script på hver maskin, som skriver ut relevant informasjon fra hendelsesloggen og skriver den til en tekstfil. Til nå har han måttet hente tekstfilen manuelt, men nå ser han muligheten for å skrive en plugin til monitor.0 som henter dette ut automatisk.
+
+I powershell-konsollet på en Windows 2008-server, gir kommandoen PS C:\Logs> ls følgende output:
+
+    Directory: Microsoft.PowerShell.Core\FileSystem::C:\Logs
+
+Mode                LastWriteTime     Length Name
+----                -------------     ------ ----                                                                                                                                                    -a---        16.05.2011     08:00      11590 FIO_members.txt
+-----        26.02.2011     07:00       1702 spooler_surveillance.txt
+-a---        14.05.2011     07:56      12908 syslog.txt                                                                                                                                              Loggen skrives til filen syslog.txt og for å finne ut hvilke muligheter powershell gir, undersøker Mr. White nærmere, med en kommandoen PS C:\Logs> ls syslog.txt | get-member. Kommandoen gir følgende (utsnitt):
+
+
+   TypeName: System.IO.FileInfo
+
+Name                      MemberType     Definition
+----                      ----------     ----------                                                                                                                                                  AppendText                Method         System.IO.StreamWriter AppendText()
+CopyTo                    Method         System.IO.FileInfo CopyTo(String de...
+...
+set_CreationTime          Method         System.Void
+set_CreationTime(DateTime...
+set_LastAccessTime        Method         System.Void
+set_LastAccessTime(DateTime...
+set_LastWriteTime         Method         System.Void
+set_LastWriteTime(DateTime...                                                                                                                                                                        ...
+CreationTime              Property       System.DateTime CreationTime {get;s...
+LastAccessTime            Property       System.DateTime LastAccessTime {get...
+LastWriteTime             Property       System.DateTime LastWriteTime {get;...
+Length                    Property       System.Int64 Length {get;}
+Name                      Property       System.String Name {get;}
+...
+a) Forklar hva som skjer i kommandoen over. Forklar også hvorfor det ikke ville gi mening å lage noe tilsvarende kommandoen Get-member i bash. Uttrykk deg kort og konsist.
+--------------------------------------------------------------------------------------------
+ls returnerer filobjektet filen med navn syslog.txt. Dette objektet pipes til kommandoen get-member som lister opp alle metoder og alle egenskaper ved objektet. Bash er ikke objektorientert, så en bash kommando på syslog ville bare returnert objektnavn.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Mr. White ønsker nå å ta kopi av systemloggen. Kopiering av filen vil gjøre at aksesseringstidspunktet til filen endres i filsystemet, men fordi han ikke stoler helt på windows ønsker han å endre dette manuelt. Han skriver først et par kommandoer for å sjekke at han husker hvordan powershell håndterer tidspunkt:                                                                                                                                                                                                                                                                                      PS C:\Logs> Get-date                                                                                                                                                                                                                                                                                                                                                                                      16. mai 2011 07:56:48                                                                                                                                                                                
+PS C:\Logs>$time=Get-date
+PS C:\Logs>$time.Get-type()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     DateTime                                 System.ValueType
+Han vet nå hvordan formatet på dagens dato ser ut, og prøver følgende, som gir feilmelding:
+PS C:\TEMP> "syslog.txt".setLastAccessTime("16. mai 2011 07:56:48")
+Method invocation failed because [System.String] doesn't contain a method named
+ 'setLastAccessTime'.
+At line:1 char:31
++ "syslog.txt".setLastAccessTime( <<<< "16. mai 2011 07:56:48")
+PS C:\TEMP>
+b) Les feilmeldingen nøye og forklar kort hva som gikk galt. Ser du flere ting som ikke er riktig?
+-------------------------------------------------------------------------------------------
+b) b) Feilmeldingen sier at klassen "System.String" ikke har noen metode kalt 'setLastAccessTime'. Feilmeldingen gir mening, fordi vi prøver å gjøre et metodekall på strengen "syslog.txt". Det er heller ingen metode på filobjektet som heter setLastAccessTime() - den heter set_LastAccessTime, og en siste ting som er feil er at vi prøver å sende en streng med som argument. Fra utskriften ser vi at metoden tar som argument et DateTime-objekt.
+
+c) Anta at du står i kommandolinjen og at du har gjort det som står nevnt over. Vis nå hvordan du ville gått frem for å endre aksesstidspunkt. Du kan gjøre dette i flere trinn, eller med en enkelt kommmando - det blir det samme.
+----------------------------------------------------------------------------------------------
+c) $file=ls syslog.txt; $file.set_LastAccessTime($time);
+
+Mr. White er ferdig med aksesstidspunktet og jobber nå med tidspunktet for siste endring.
+d) I outputen fra kommandoen Get-member, vist over, gis det to måter å hente ut tidspunktet fra filobjektet på. Angi hvilke, og forklar forskjellen på disse.
+-------------------------------------------------------------------------------------------
+d) Vi har get_LastAccessTime(), som er en metode, og LastAccessTime, som er en egenskap. Metoder "gjør arbeid", dvs. De kan inneholde instruksjoner til prosessoren, som eksekveres ved et kall, mens egenskapen bare er data.
+
+
+e) For hver av de to måtene, gi en kommando som lagrer tidspunktet for sist filen ble skrevet til, i variablen $lastChanged.
+---------------------------------------------------------------------------------------------
+e) $lastChanged=$file.get_LastAccessTime();
+$lastChanged=$file.LastAccessTime;
+
+f) Skriv et lite powershell-script som går igjennom filen syslog.txt, og ser etter feilmeldinger, på samme format som i perl-scriptet over. Powershell-scriptet skal skrive ut true hvis filen inneholder feilmeldinger, ellers false.
+-----------------------------------------------------------------------------------------------
+  TIMTOWTDI
+$result=$false;
+get-content syslog.txt | foreach{
+        if($_ -like "Error*"){
+                 $result=$true;
+        }
+}
+$result;
+~                                                                                                                                                                                                                                                  

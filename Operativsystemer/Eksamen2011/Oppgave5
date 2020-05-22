@@ -1,0 +1,7 @@
+ C:\Users\tm2_9> for($i=1; $i -le 5; $i++){"Linje $($i*2)"}
+Linje 2
+Linje 4
+Linje 6
+Linje 8
+Linje 10
+
