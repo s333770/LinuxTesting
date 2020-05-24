@@ -1,0 +1,30 @@
+a) Hva gjør følgende kommando?
+
+cat /etc/passwd | cut -d : -f 1
+--------------------------------------------------------------
+Den skriver ut alle brukerne som har en passordfil, alle brukernavn på systemet
+
+b) Hva er feil i denne kommandoen:
+
+ls /home >> grep group > group_users.txt
+--------------------------------------------------------------------
+Man har brukt omdirigering osm om det var en pipe
+ls /home |grep gruop >group.txt
+
+c) Gi en kommando som teller antall brukere som finnes på systemet
+--------------------------------------------------------------------
+cat /etc/passwd | wc -l
+
+d) Gi en kombinasjon av kommandoer som sjekker om det akkurat nå finnes en prosess med navn "calc.pl"
+-----------------------------------------------------------------------
+ps aux | grep calc.pl
+
+e) Hva gjør følgende kommando:
+
+if [ -f /home/ola/.trash/* ]; then
+    rm /home/ola/.trash/*
+fi
+---------------------------------------------------------
+Hvis det eksisterer filer i trash, så skal disse tas og slettes 
+
+ 

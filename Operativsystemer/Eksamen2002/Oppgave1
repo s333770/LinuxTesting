@@ -1,0 +1,16 @@
+d) Du gjør følgende i et bash-shell og får kun den output som du ser.
+
+$ cd /tmp
+$ cd tmp 2> /dev/null
+$ cd tmp 2> /dev/null
+$ /bin/pwd
+/tmp
+$
+Angi tre forskjellige katalogstrukturer under /tmp som vil gi dette resultatet.
+-------------------------------------------------------------
+Det finnes ingen katalog /tmp/tmp
+Det finnes en link /tmp/tmp -> /tmp (eller /tmp/tmp -> .)
+Det finnes en link /tmp/tmp/tmp -> /tmp
+Det finnes en link /tmp/tmp -> katalog og i katalog finnes det en link tmp -> /tmp
+
+

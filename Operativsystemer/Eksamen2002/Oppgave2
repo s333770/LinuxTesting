@@ -1,0 +1,22 @@
+#Lag et bash-script pidkill som tar ett argument fra kommandolinjen og betrakter argumentet som en prosess-PID. Hvis ingen eller fler#e enn ett argument gis, skal scriptet avslutte med en passende feilmelding. Ellers skal scriptet drepe alle prosesser som har en PID# som er høyere enn den som er gitt ved argumentet. Kun prosesser som eies av den som kjører scriptet skal drepes. Ved f. eks.
+
+#$ pidkill 1456
+#skal alle prosesser brukeren eier som har PID høyere enn 1456 drepes. For hver prosess som drepes, skal det gis en melding om det ti#l skjermen. Unngå at scriptet dreper seg selv og eventuelle prosesser det selv starter. Output fra kommandoen ps aux ser slik ut:
+#--------------------------------------------------------------------------------------------------------------
+#! /bin/bash
+
+user=`whoami`
+
+echo $user
+ps aux | 
+while read pid uid rest
+do
+	if [ $uid == $user ] # Brukes ps ux, bør 1. linje unngås
+       then
+          if [ $$ -gt $pid -a $pid -gt $1 ] #-a er and i bash script $$ betyr prosessen sin egen pid
+	      then
+	      echo "dreper $pid"
+	      kill -9 $pid
+	  fi
+   fi
+done 

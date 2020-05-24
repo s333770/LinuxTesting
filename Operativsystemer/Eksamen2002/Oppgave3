@@ -1,0 +1,67 @@
+a) En CPU bruker 20-bits registere til å adressere en byte i internminnet. Hvor mange Mbytes kan da adresseres?
+	1048576-1=1048576 er tilnærmet lik 1Mb
+
+b) Hvilken av lagringsenhetene RAM, register og harddisk bruker CPU henholdsvis kortest og lengst tid på å hente en byte fra?
+
+	Kortest: register, Ram og harddisk 
+
+c) Hva er linking av programmer? Forklar kort
+	c) Linking er å koble sammen den kompilerte koden til et program med moduler og statiske bibliotek til ett kjørbart program.
+
+
+d) Hva er et dynamisk bibliotek. Forklar kort.
+d) Et dynamisk bibliotek linkes ikke direkte til hvert program. Bare en felles kopi av bibliotekrutinene lastes inn i minnet og flere programmer bruker det samme biblioteket. I tillegg lastes ikke rutinene inn før det er behov for dem.
+
+e) Du har filen Kernel.class i hjemmekatalogen din på en Linux-maskin og kjører den med $ java Kernel. Etter en stund er programmet helt uvirksomt, men ikke ferdig med å kjøre. OS slipper andre til ved å fjerne det helt fra minnet ved hjelp av paging. Hvor legger da OS alt som fjernes fra minnet?
+-----------------------------------------------------------------------------------------------------------------------
+e) OS legger da alt på swap-området på harddisken.
+
+
+f) Swap-partisjonen har under Linux et litt anderledes filsystem enn partisjoner som brukes til vanlige filer. Hva er grunnen til det?
+f) Hver page som lastes ut fra minnet ved paging har en fast størrelse og swap-partisjonen er tilpasset dette og disse operasjonene. Vanlige filer varier i størrelse og trenger et mer fleksibelt filsystem.
+
+
+g) Forklar kort hvorfor du kan kjøre den samme Java byte-koden på en Intel Windows-PC som på en Sun Unix-maskin.
+g) Java byte-kode kjører på en virtuell maskin (JVM, Java Virtual Machine). Hver plattform som Windows-PC, Sun Unix-maskin, Linux-PC, Mac, etc. har sin egen spesiallagede JVM som tolker byte-koden og kjører den på den underliggende plattformen.
+
+h) Du kompilerer et C-program på en Intel Windows-PC og får en exe-fil. Du kopierer denne til en Sun Unix-maskin og kjører den der. Forklar kort hvorfor programmet ikke vil virke.
+h) Et kompilert C-program er maskinkode med instruksjoner til CPU'en på den plattformen programmet er kompilert. Intel og Sun har ikke samme instruksjoner og programmet vil derfor umulig kunne kjøre (I tillegg inneholder slik maskinkode OS-instruksjoner, så det ville heller ikke kjørt på en Intel Linux-PC).
+
+i) Systemkallet fork() brukes til å starte en ny prosess. Det lager en kopi av programmet som kaller fork()(parent) og det nye programmet (child) legges inn i prosess-køen med sin egen prosess-ID. Child kjører samme kode som parent, men starter fra etter fork()-kallet.
+
+
+#! /bin/perl
+print "\nfork() er komplisert! \n";
+$i = 1;
+$pid = fork();
+$i++;
+if ($pid == 0)
+   {
+    sleep(5);
+    print "A: i = $i\n";
+    $i++;
+   }
+print "B: i = $i\n";
+$pid = fork();
+if ($pid == 0)
+   {
+    sleep(5);
+    print "C: i = $i\n";
+   }
+Angi hva output fra scriptet blir med tidspunkt siden scriptet startet (anta det ikke kjøres noe annent samtidig) i hele sekunder for hver linje. Start slik:
+fork() er komplisert! (0 sek.)
+---------------------------------------------------------------------------------------------------------
+fork er komplisert
+B: i=2 Først får prosessen til 
+A: i=2 child prosessen
+B: i=3 childprosessen
+C; i=2
+c; i=3
+
+A:i=2
+A: i=3
+
+
+
+
+

@@ -1,0 +1,32 @@
+Oppgave 3 - Threads/tråder (20%)
+
+a) Forklar kort forskjellen på en "single core" og en "dual core" CPU.
+---------------------------------------------------
+En "single core" CPU har kun é n prosessorenhet med ALU og registere mens en "dual core" CPU har to prosessorenheter eller kjerner med hver sin ALU og sett av registere integrert på samme brikke. De to ALU'ene kan prosessere helt uavhengig av hverandre. De to prosessorenhetene har felles cache på brikken
+
+b) Forklar kort forskjellen på threads og hyperthreading.
+--------------------------------------------------------------
+Threads eller tråder er et begrep som betegner utføringen av et program. Flere tråder kan eksistere innenfor samme prosess, eksekvere samme kode og dele felles data. OS schedulerer typisk trådene uavhengig av hverandre. Hyperthreading foregår på et lavere nivå, inne i selve prosessorenheten. For OS oppfattes det som om to prosesser(eller to tråder) kjøres samtidig. Men en hyperthreading CPU har kun en ALU og de to prosessene må bytte på å bruke denne. De har derimot hvert sitt sett med registere og CPU'en kan da lynhurtig switche mellom de to prosessene/trådene.
+
+
+c) Du har fått jobb som konsulent og får et oppdrag hos en kunde som jobber på en PC med Windows XP. Kunden kjører et Java-program som er ganske CPU-intensivt, men som også bruker noe tid på å lese fra disk. Det bruker 10 minutter på å fullføre jobben. Kunden forteller at hun nettop har oppgradert til en dual core CPU, men at programmet likevel ikke går fortere. Forklar kort for kunden hvorfor Java-programmet ikke klarer å utnytte begge CPU-kjernene.
+----------------------------------------------------------------
+Generelt kan ikke et Java-program utnytte to uavhengige CPU-kjerner. Dette er fordi instruksjonene utføres sekvensielt og at kommende instruksjoner bygger på resultatene av de instruksjonene som har blitt utført. Alle instruksjonene må derfor utføres i rekkefølge og kan dermed ikke utføres i parallell uavhengig av hverandre på to forskjellige prosesseringsenheter.
+
+d) Kundens program leser fire store tekstfiler og for hver fil utføres noen kompliserte beregninger av hvor lang avstand det er mellom visse ord i teksten i denne filen. Forklar kort for kunden hvordan du kan endre Java-programmet til å utnytte begge CPU-kjernene ved å bruke to Java-tråder. Du trenger ikke å skrive Java-kode, men bare skissere prinsippene for hvordan koden skal løse den konkrete programmeringsoppgaven ved hjelp av to Java-tråder.
+--------------------------------------------------------------
+d) Programmet behandler fire store tekstfiler av gangen og arbeidet med en fil er uavhengig av de andre. Dermed kan man enkelt implementere programmet med to uavhengige Java-tråder som behandler to filer hver. For eksempel kan man skrive en Java-thread som tar to filnavn som argument og utfører alle beregninger på disse filene når den startes. Hovedprogrammet starter opp to slike tråder, de vil da starte samtidig og OS vil schedulere dem på hver sin CPU-kjerne.
+
+e) Kunden er meget imponert over forslaget ditt og betaler villig for at du skriver om programmet. Det gjør du på en times tid og demonstrerer for kunden at programmet nå tar 5 minutter på å fullføre. Forklar kort for kunden hvorfor tiden blir halvert.
+--------------------------------------------------------------
+e) De to trådene jobber fullstendig uavhengig av hverandre på hver sin like raske CPU-kjerne og dermed halveres prosesseringstiden. Tydligvis er ikke bruken av disk så intensiv at dette går ut over tiden det tar å bli ferdig, noe som potensielt kunne vært en flaskehals.
+
+f) Kunden forteller videre at hver av CPU-kjernene er hyperthreading og spør om det er mulig å gjøre ytterligere endringer av Java-koden for å utnytte hyperthreadingen. Skisser kort for kunden en liten ekstra endring av Java-koden som gjør at programmet utnytter hyperthreading.
+--------------------------------------------------------------
+f) Det er nå enkelt å skrive om programmet slik at det starter fire threads i starten som hver jobber på sin egen fil. OS hvil da schedulere to tråder på hver CPU-kjerne. Siden CPU-kjernene er hyperthreading, vil de switche hurtig mellom de to tildelte trådene hver gang den ene må hente noe fra disk, slik at den andre i mellomtiden kan utnytte ALU-tiden.
+
+g) Kunden er fyr og flamme når du meget rakst skriver om programmet og kjører det på nytt. Det går ett minutt raskere og bruker total 4 minutter på hele jobben. Prøv å forklare for kunden hvorfor det ikke var å forvente at kjøretiden ble halvert til to og et halvt minutt.
+---------------------------------------------------------------
+g) De to trådene som jobber på samme hyperthreading-CPU har bare en ALU å dele på og prosesserings jobben er tydligvis så CPU-avhengig at prosesseringen er den største flaskehalsen. Dermed må de to trådene som hyperhtreades vente noe på hverandre og den totale tiden blir ikke halvert.
+
+

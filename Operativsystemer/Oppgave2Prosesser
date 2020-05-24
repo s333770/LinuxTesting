@@ -1,0 +1,38 @@
+Oppgave 2 - Prosesser (20%)
+
+Denne oppgaven handler om prosesser i et Linux/Unix miljø. Anta at du har et CPU-intensivt program med navn regn. Det bruker all den CPU-tid som det gis tilgang til. Programmet forventer et tall som argument og skriver ut et desimaltall som resultat. En vanlig kjøring kan se slik ut
+
+$ ./regn 23
+Resultatet er: 4.23114451
+Programmet bruker nøyaktig 10 minutter på utføre beregningen når Linux-maskinen ellers ikke er i bruk. Tiden er den samme uansett hvilken parameter du sender med.
+a) Du setter igang programmet med feil parameter. Forklar kort hvordan du kan stoppe det.
+------------------------------------------------------------------------------
+Ctrl + c stopper programmet med en gang, eventuelt finne pid og kill det.
+
+b) I riktig gamle dager måtte du vente til programmet var ferdig før du kunne bruke datamaskinen din til noe annet. Forklar kort hvordan et moderne operativsystem gjør det mulig at du surfer på nettet samtidig som programmet kjører. Linux-PC'en din har kun én CPU.
+-------------------------------------------------------------------------
+b) Et moderne OS fordeler CPU-tid mellom alle prosessene på systemet ved å dele opp tiden i deler eller timeslices og sette alle kjørende prosesser inn i en Round Robin-kø. Museklikk i browseren sender interrupts som gjør at input kan behandles hurtig. Dermed er det mulig å surfe på nettet samtidig som programmet kjører.
+
+c) Du leser nettaviser med Firefox mens du venter på at programmet regn skal bli ferdig. I hvilken grad forventer du at din bruk av Firefox vil påvirke hvor lang tid beregningen tar? Forklar kort.
+--------------------------------------------------------------------------
+Nettlesere tar ikke mye CPU og vil ikke påvirke CPU-tiden mye 
+
+d) Du har gått litt lei av å lese nettaviser og gleder deg stort over en melding fra drift. De har oppgradert PC'en din slik at du nå har to CPU'er av samme type som den gamle. Nå skal programmet gå fortere! Men skuffet oppdager du at programmet fortsatt bruker 10 minutter. Hva skyldes det? Forklar kort.
+-------------------------------------------------------------------------
+ En vanlig prosess vil kun kunne utnytte é CPU av gangen. Det er ikke mulig for OS å fordele instruksjonene i et vilkårlig sekvensielt program mellom to CPU'er. OS kan ikke vite i hvor stor grad kommende instruksjoner avhenger av de tidligere og de kan derfor ikke kjøres parallelt. Dermed utføres hele programmet på en av CPU'ene mens den andre står uvirksom.
+
+e) Samme program startes to ganger med forskjellige parametere. Resultatet lagres i en fil med navn resTALL.txt der TALL er tall-argumentet. Tegnet & gjør at kommandoen legges i bakgrunnen, dermed vil begge jobbene startes opp og kjøre samtidig. Da vil det være mulig for OS å sette i gang jobbene på hver sin CPU hvor disse gjennomføres uavhengig av hverandre. Dermed vil det bare ta 10 minutter før begge resultatene er klare.
+------------------------------------------------------------------------------
+e) Samme program startes to ganger med forskjellige parametere. Resultatet lagres i en fil med navn resTALL.txt der TALL er tall-argumentet. Tegnet & gjør at kommandoen legges i bakgrunnen, dermed vil begge jobbene startes opp og kjøre samtidig. Da vil det være mulig for OS å sette i gang jobbene på hver sin CPU hvor disse gjennomføres uavhengig av hverandre. Dermed vil det bare ta 10 minutter før begge resultatene er klare.
+
+f) Skriv et bash-script med navn run som tar et vilkårlig antall argumenter. Scriptet skal anta at hvert argument er et tall og for hvert tall skal programmet regn startes med tallet som argument. Hvis for eksempel run startes med
+----------------------------------------------------------------------------
+#! /bin/bash
+if [ $# -lt 1 ]; then
+   echo "Oppgi minst ett argument! "
+fi
+
+for tall in $*
+do
+   ./regn $tall > res$tall.txt&
+done
